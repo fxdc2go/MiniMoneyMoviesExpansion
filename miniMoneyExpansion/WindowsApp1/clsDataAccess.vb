@@ -48,4 +48,27 @@ Public Class clsDataAccess
             com.Dispose()
         End Try
     End Function
+    Friend Function GetCustomerAccountByID(intID As Int64) As DataTable
+        cnInit()
+        Dim strSQL As String = "Select * from CustomerAccount where CustAccountID = " & intID & ";"
+        Dim com As New SqlCommand
+        With com
+            .Connection = cnSQL
+            .CommandType = CommandType.Text
+            .CommandText = strSQL
+        End With
+        Dim da As New SqlDataAdapter(com)
+        Dim dt As New DataTable
+        Try
+            da.Fill(dt)
+        Catch ex As Exception
+            MsgBox(ex.Message & " GetCustomerAccountByID")
+            dt.Clear()
+        Finally
+            GetCustomerAccountByID = dt
+            dt.Dispose()
+            da.Dispose()
+            com.Dispose()
+        End Try
+    End Function
 End Class
